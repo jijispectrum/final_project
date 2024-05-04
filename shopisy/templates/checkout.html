@@ -1,0 +1,84 @@
+{% load static %}
+{% include 'header.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <!-- Add your CSS links here -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 auto;
+            max-width: 1200px; /* Adjust as needed */
+            padding: 0 20px;
+        }
+
+        .left-column,
+        .right-column {
+            width: calc(50% - 10px);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <!-- Add your header content here -->
+    {% comment %} {% include 'header.html' %} {% endcomment %}
+</header>
+
+<section class="checkout_section layout_padding">
+    <div class="container">
+        <div class="left-column">
+            <h2>Checkout</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through cart items and display them -->
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>${{ item.product.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="right-column">
+            <div class="checkout_total">
+                <h3>Total: ${{ total_price }}</h3>
+                <div class="billing_details">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Place Order</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <!-- Add your footer content here -->
+    {% include 'footer.html' %}
+</footer>
+
+<!-- Add your JavaScript links here -->
+<script src="{% static 'js/script.js' %}"></script>
+
+</body>
+</html>
